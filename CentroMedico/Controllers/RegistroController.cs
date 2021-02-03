@@ -24,6 +24,7 @@ namespace CentroMedico.Controllers
         
             if (ModelState.IsValid)
             {
+
                 usuario.rol = 1;
                 usuario.fecha_nacimiento = Convert.ToDateTime(usuario.fecha_nacimiento);
                 db.Usuario.Add(usuario);
