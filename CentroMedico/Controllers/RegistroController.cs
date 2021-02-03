@@ -21,10 +21,11 @@ namespace CentroMedico.Controllers
         [HttpPost]
         public ActionResult Registro(Usuario usuario)
         {
-            usuario.rol = 1;
-            usuario.fecha_nacimiento = Convert.ToDateTime(usuario.fecha_nacimiento);
+        
             if (ModelState.IsValid)
             {
+                usuario.rol = 1;
+                usuario.fecha_nacimiento = Convert.ToDateTime(usuario.fecha_nacimiento);
                 db.Usuario.Add(usuario);
                 db.SaveChanges();
                 ModelState.Clear();
