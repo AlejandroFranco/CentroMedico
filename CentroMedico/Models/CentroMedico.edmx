@@ -1,0 +1,680 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CentroMedicoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AnexosConsulta">
+          <Key>
+            <PropertyRef Name="id_anexo" />
+          </Key>
+          <Property Name="id_anexo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_consulta" Type="int" />
+          <Property Name="observaciones" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'CentroMedico.dbo.Cita' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="Cita">
+          <Key>
+            <PropertyRef Name="id_cita" />
+          </Key>
+          <Property Name="id_cita" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_medico" Type="int" />
+          <Property Name="id_paciente" Type="int" />
+          <Property Name="fecha_cita" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Consulta">
+          <Key>
+            <PropertyRef Name="id_consulta" />
+          </Key>
+          <Property Name="id_consulta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_paciente" Type="int" />
+          <Property Name="id_medico" Type="int" />
+          <Property Name="hora_fin" Type="datetime" />
+          <Property Name="estado_cita" Type="varchar" MaxLength="255" />
+          <Property Name="fecha_proxima_cita" Type="date" />
+        </EntityType>
+        <EntityType Name="ImagenesAnexos">
+          <Key>
+            <PropertyRef Name="id_imagen" />
+          </Key>
+          <Property Name="id_imagen" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="link_imagen" Type="varchar" MaxLength="255" />
+          <Property Name="id_anexo" Type="int" />
+        </EntityType>
+        <EntityType Name="Medico">
+          <Key>
+            <PropertyRef Name="id_medico" />
+          </Key>
+          <Property Name="id_medico" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_usuario" Type="int" />
+          <Property Name="colegiado" Type="bigint" />
+          <Property Name="especialidad" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Paciente">
+          <Key>
+            <PropertyRef Name="id_paciente" />
+          </Key>
+          <Property Name="id_paciente" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_usuario" Type="int" />
+          <Property Name="cod_paciente" Type="varchar" MaxLength="255" />
+          <Property Name="dpi_paciente" Type="bigint" />
+        </EntityType>
+        <EntityType Name="RecetaMedica">
+          <Key>
+            <PropertyRef Name="id_receta" />
+          </Key>
+          <Property Name="id_receta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre_medicamento" Type="varchar" MaxLength="255" />
+          <Property Name="dosis_medicamento" Type="varchar" MaxLength="255" />
+          <Property Name="instrucciones_medicamento" Type="varchar" MaxLength="255" />
+          <Property Name="id_anexo" Type="int" />
+        </EntityType>
+        <EntityType Name="Rol">
+          <Key>
+            <PropertyRef Name="id_rol" />
+          </Key>
+          <Property Name="id_rol" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre_rol" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="id_usuario" />
+          </Key>
+          <Property Name="id_usuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="rol" Type="int" Nullable="false" />
+          <Property Name="sexo" Type="varchar" MaxLength="255" />
+          <Property Name="fecha_nacimiento" Type="date" />
+          <Property Name="primer_nombre" Type="varchar" MaxLength="255" />
+          <Property Name="segundo_nombre" Type="varchar" MaxLength="255" />
+          <Property Name="primer_apellido" Type="varchar" MaxLength="255" />
+          <Property Name="segundo_apellido" Type="varchar" MaxLength="255" />
+          <Property Name="nombre_usuario" Type="varchar" MaxLength="255" />
+          <Property Name="pass_usuario" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <Association Name="FK__AnexosCon__id_co__47DBAE45">
+          <End Role="Consulta" Type="Self.Consulta" Multiplicity="0..1" />
+          <End Role="AnexosConsulta" Type="Self.AnexosConsulta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Consulta">
+              <PropertyRef Name="id_consulta" />
+            </Principal>
+            <Dependent Role="AnexosConsulta">
+              <PropertyRef Name="id_consulta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Cita__id_medico__403A8C7D">
+          <End Role="Medico" Type="Self.Medico" Multiplicity="0..1" />
+          <End Role="Cita" Type="Self.Cita" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Medico">
+              <PropertyRef Name="id_medico" />
+            </Principal>
+            <Dependent Role="Cita">
+              <PropertyRef Name="id_medico" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Cita__id_pacient__412EB0B6">
+          <End Role="Paciente" Type="Self.Paciente" Multiplicity="0..1" />
+          <End Role="Cita" Type="Self.Cita" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paciente">
+              <PropertyRef Name="id_paciente" />
+            </Principal>
+            <Dependent Role="Cita">
+              <PropertyRef Name="id_paciente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Consulta__id_med__44FF419A">
+          <End Role="Medico" Type="Self.Medico" Multiplicity="0..1" />
+          <End Role="Consulta" Type="Self.Consulta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Medico">
+              <PropertyRef Name="id_medico" />
+            </Principal>
+            <Dependent Role="Consulta">
+              <PropertyRef Name="id_medico" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Consulta__id_pac__440B1D61">
+          <End Role="Paciente" Type="Self.Paciente" Multiplicity="0..1" />
+          <End Role="Consulta" Type="Self.Consulta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paciente">
+              <PropertyRef Name="id_paciente" />
+            </Principal>
+            <Dependent Role="Consulta">
+              <PropertyRef Name="id_paciente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ImagenesA__id_an__4D94879B">
+          <End Role="AnexosConsulta" Type="Self.AnexosConsulta" Multiplicity="0..1" />
+          <End Role="ImagenesAnexos" Type="Self.ImagenesAnexos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnexosConsulta">
+              <PropertyRef Name="id_anexo" />
+            </Principal>
+            <Dependent Role="ImagenesAnexos">
+              <PropertyRef Name="id_anexo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Medico__id_usuar__3E52440B">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="Medico" Type="Self.Medico" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="id_usuario" />
+            </Principal>
+            <Dependent Role="Medico">
+              <PropertyRef Name="id_usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Paciente__id_usu__3B75D760">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="Paciente" Type="Self.Paciente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="id_usuario" />
+            </Principal>
+            <Dependent Role="Paciente">
+              <PropertyRef Name="id_usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RecetaMed__id_an__4AB81AF0">
+          <End Role="AnexosConsulta" Type="Self.AnexosConsulta" Multiplicity="0..1" />
+          <End Role="RecetaMedica" Type="Self.RecetaMedica" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnexosConsulta">
+              <PropertyRef Name="id_anexo" />
+            </Principal>
+            <Dependent Role="RecetaMedica">
+              <PropertyRef Name="id_anexo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Usuario__rol__38996AB5">
+          <End Role="Rol" Type="Self.Rol" Multiplicity="1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rol">
+              <PropertyRef Name="id_rol" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="rol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CentroMedicoModelStoreContainer">
+          <EntitySet Name="AnexosConsulta" EntityType="Self.AnexosConsulta" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Consulta" EntityType="Self.Consulta" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ImagenesAnexos" EntityType="Self.ImagenesAnexos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Medico" EntityType="Self.Medico" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Paciente" EntityType="Self.Paciente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RecetaMedica" EntityType="Self.RecetaMedica" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cita" EntityType="Self.Cita" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Cita].[id_cita] AS [id_cita], 
+    [Cita].[id_medico] AS [id_medico], 
+    [Cita].[id_paciente] AS [id_paciente], 
+    [Cita].[fecha_cita] AS [fecha_cita]
+    FROM [dbo].[Cita] AS [Cita]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__AnexosCon__id_co__47DBAE45" Association="Self.FK__AnexosCon__id_co__47DBAE45">
+            <End Role="Consulta" EntitySet="Consulta" />
+            <End Role="AnexosConsulta" EntitySet="AnexosConsulta" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Cita__id_medico__403A8C7D" Association="Self.FK__Cita__id_medico__403A8C7D">
+            <End Role="Medico" EntitySet="Medico" />
+            <End Role="Cita" EntitySet="Cita" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Cita__id_pacient__412EB0B6" Association="Self.FK__Cita__id_pacient__412EB0B6">
+            <End Role="Paciente" EntitySet="Paciente" />
+            <End Role="Cita" EntitySet="Cita" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Consulta__id_med__44FF419A" Association="Self.FK__Consulta__id_med__44FF419A">
+            <End Role="Medico" EntitySet="Medico" />
+            <End Role="Consulta" EntitySet="Consulta" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Consulta__id_pac__440B1D61" Association="Self.FK__Consulta__id_pac__440B1D61">
+            <End Role="Paciente" EntitySet="Paciente" />
+            <End Role="Consulta" EntitySet="Consulta" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ImagenesA__id_an__4D94879B" Association="Self.FK__ImagenesA__id_an__4D94879B">
+            <End Role="AnexosConsulta" EntitySet="AnexosConsulta" />
+            <End Role="ImagenesAnexos" EntitySet="ImagenesAnexos" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Medico__id_usuar__3E52440B" Association="Self.FK__Medico__id_usuar__3E52440B">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Medico" EntitySet="Medico" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Paciente__id_usu__3B75D760" Association="Self.FK__Paciente__id_usu__3B75D760">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Paciente" EntitySet="Paciente" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RecetaMed__id_an__4AB81AF0" Association="Self.FK__RecetaMed__id_an__4AB81AF0">
+            <End Role="AnexosConsulta" EntitySet="AnexosConsulta" />
+            <End Role="RecetaMedica" EntitySet="RecetaMedica" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Usuario__rol__38996AB5" Association="Self.FK__Usuario__rol__38996AB5">
+            <End Role="Rol" EntitySet="Rol" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CentroMedicoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AnexosConsulta">
+          <Key>
+            <PropertyRef Name="id_anexo" />
+          </Key>
+          <Property Name="id_anexo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_consulta" Type="Int32" />
+          <Property Name="observaciones" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Consulta" Relationship="Self.FK__AnexosCon__id_co__47DBAE45" FromRole="AnexosConsulta" ToRole="Consulta" />
+          <NavigationProperty Name="ImagenesAnexos" Relationship="Self.FK__ImagenesA__id_an__4D94879B" FromRole="AnexosConsulta" ToRole="ImagenesAnexos" />
+          <NavigationProperty Name="RecetaMedica" Relationship="Self.FK__RecetaMed__id_an__4AB81AF0" FromRole="AnexosConsulta" ToRole="RecetaMedica" />
+        </EntityType>
+        <EntityType Name="Consulta">
+          <Key>
+            <PropertyRef Name="id_consulta" />
+          </Key>
+          <Property Name="id_consulta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_paciente" Type="Int32" />
+          <Property Name="id_medico" Type="Int32" />
+          <Property Name="hora_fin" Type="DateTime" Precision="3" />
+          <Property Name="estado_cita" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_proxima_cita" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="AnexosConsulta" Relationship="Self.FK__AnexosCon__id_co__47DBAE45" FromRole="Consulta" ToRole="AnexosConsulta" />
+          <NavigationProperty Name="Medico" Relationship="Self.FK__Consulta__id_med__44FF419A" FromRole="Consulta" ToRole="Medico" />
+          <NavigationProperty Name="Paciente" Relationship="Self.FK__Consulta__id_pac__440B1D61" FromRole="Consulta" ToRole="Paciente" />
+        </EntityType>
+        <EntityType Name="ImagenesAnexos">
+          <Key>
+            <PropertyRef Name="id_imagen" />
+          </Key>
+          <Property Name="id_imagen" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="link_imagen" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="id_anexo" Type="Int32" />
+          <NavigationProperty Name="AnexosConsulta" Relationship="Self.FK__ImagenesA__id_an__4D94879B" FromRole="ImagenesAnexos" ToRole="AnexosConsulta" />
+        </EntityType>
+        <EntityType Name="Medico">
+          <Key>
+            <PropertyRef Name="id_medico" />
+          </Key>
+          <Property Name="id_medico" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_usuario" Type="Int32" />
+          <Property Name="colegiado" Type="Int64" />
+          <Property Name="especialidad" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Consulta" Relationship="Self.FK__Consulta__id_med__44FF419A" FromRole="Medico" ToRole="Consulta" />
+          <NavigationProperty Name="Cita" Relationship="Self.FK__Cita__id_medico__403A8C7D" FromRole="Medico" ToRole="Cita" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK__Medico__id_usuar__3E52440B" FromRole="Medico" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Paciente">
+          <Key>
+            <PropertyRef Name="id_paciente" />
+          </Key>
+          <Property Name="id_paciente" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_usuario" Type="Int32" />
+          <Property Name="cod_paciente" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="dpi_paciente" Type="Int64" />
+          <NavigationProperty Name="Consulta" Relationship="Self.FK__Consulta__id_pac__440B1D61" FromRole="Paciente" ToRole="Consulta" />
+          <NavigationProperty Name="Cita" Relationship="Self.FK__Cita__id_pacient__412EB0B6" FromRole="Paciente" ToRole="Cita" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK__Paciente__id_usu__3B75D760" FromRole="Paciente" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="RecetaMedica">
+          <Key>
+            <PropertyRef Name="id_receta" />
+          </Key>
+          <Property Name="id_receta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre_medicamento" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="dosis_medicamento" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="instrucciones_medicamento" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="id_anexo" Type="Int32" />
+          <NavigationProperty Name="AnexosConsulta" Relationship="Self.FK__RecetaMed__id_an__4AB81AF0" FromRole="RecetaMedica" ToRole="AnexosConsulta" />
+        </EntityType>
+        <EntityType Name="Rol">
+          <Key>
+            <PropertyRef Name="id_rol" />
+          </Key>
+          <Property Name="id_rol" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre_rol" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK__Usuario__rol__38996AB5" FromRole="Rol" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="id_usuario" />
+          </Key>
+          <Property Name="id_usuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="rol" Type="Int32" Nullable="false" />
+          <Property Name="sexo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_nacimiento" Type="DateTime" Precision="0" />
+          <Property Name="primer_nombre" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="segundo_nombre" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="primer_apellido" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="segundo_apellido" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="nombre_usuario" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="pass_usuario" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Medico" Relationship="Self.FK__Medico__id_usuar__3E52440B" FromRole="Usuario" ToRole="Medico" />
+          <NavigationProperty Name="Paciente" Relationship="Self.FK__Paciente__id_usu__3B75D760" FromRole="Usuario" ToRole="Paciente" />
+          <NavigationProperty Name="Rol1" Relationship="Self.FK__Usuario__rol__38996AB5" FromRole="Usuario" ToRole="Rol" />
+        </EntityType>
+        <EntityType Name="Cita">
+          <Key>
+            <PropertyRef Name="id_cita" />
+          </Key>
+          <Property Name="id_cita" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_medico" Type="Int32" />
+          <Property Name="id_paciente" Type="Int32" />
+          <Property Name="fecha_cita" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Medico" Relationship="Self.FK__Cita__id_medico__403A8C7D" FromRole="Cita" ToRole="Medico" />
+          <NavigationProperty Name="Paciente" Relationship="Self.FK__Cita__id_pacient__412EB0B6" FromRole="Cita" ToRole="Paciente" />
+        </EntityType>
+        <Association Name="FK__AnexosCon__id_co__47DBAE45">
+          <End Role="Consulta" Type="Self.Consulta" Multiplicity="0..1" />
+          <End Role="AnexosConsulta" Type="Self.AnexosConsulta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Consulta">
+              <PropertyRef Name="id_consulta" />
+            </Principal>
+            <Dependent Role="AnexosConsulta">
+              <PropertyRef Name="id_consulta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ImagenesA__id_an__4D94879B">
+          <End Role="AnexosConsulta" Type="Self.AnexosConsulta" Multiplicity="0..1" />
+          <End Role="ImagenesAnexos" Type="Self.ImagenesAnexos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnexosConsulta">
+              <PropertyRef Name="id_anexo" />
+            </Principal>
+            <Dependent Role="ImagenesAnexos">
+              <PropertyRef Name="id_anexo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RecetaMed__id_an__4AB81AF0">
+          <End Role="AnexosConsulta" Type="Self.AnexosConsulta" Multiplicity="0..1" />
+          <End Role="RecetaMedica" Type="Self.RecetaMedica" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnexosConsulta">
+              <PropertyRef Name="id_anexo" />
+            </Principal>
+            <Dependent Role="RecetaMedica">
+              <PropertyRef Name="id_anexo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Consulta__id_med__44FF419A">
+          <End Role="Medico" Type="Self.Medico" Multiplicity="0..1" />
+          <End Role="Consulta" Type="Self.Consulta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Medico">
+              <PropertyRef Name="id_medico" />
+            </Principal>
+            <Dependent Role="Consulta">
+              <PropertyRef Name="id_medico" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Consulta__id_pac__440B1D61">
+          <End Role="Paciente" Type="Self.Paciente" Multiplicity="0..1" />
+          <End Role="Consulta" Type="Self.Consulta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paciente">
+              <PropertyRef Name="id_paciente" />
+            </Principal>
+            <Dependent Role="Consulta">
+              <PropertyRef Name="id_paciente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Cita__id_medico__403A8C7D">
+          <End Role="Medico" Type="Self.Medico" Multiplicity="0..1" />
+          <End Role="Cita" Type="Self.Cita" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Medico">
+              <PropertyRef Name="id_medico" />
+            </Principal>
+            <Dependent Role="Cita">
+              <PropertyRef Name="id_medico" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Medico__id_usuar__3E52440B">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="Medico" Type="Self.Medico" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="id_usuario" />
+            </Principal>
+            <Dependent Role="Medico">
+              <PropertyRef Name="id_usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Cita__id_pacient__412EB0B6">
+          <End Role="Paciente" Type="Self.Paciente" Multiplicity="0..1" />
+          <End Role="Cita" Type="Self.Cita" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paciente">
+              <PropertyRef Name="id_paciente" />
+            </Principal>
+            <Dependent Role="Cita">
+              <PropertyRef Name="id_paciente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Paciente__id_usu__3B75D760">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="Paciente" Type="Self.Paciente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="id_usuario" />
+            </Principal>
+            <Dependent Role="Paciente">
+              <PropertyRef Name="id_usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Usuario__rol__38996AB5">
+          <End Role="Rol" Type="Self.Rol" Multiplicity="1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rol">
+              <PropertyRef Name="id_rol" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="rol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CentroMedicoEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AnexosConsulta" EntityType="Self.AnexosConsulta" />
+          <EntitySet Name="Consulta" EntityType="Self.Consulta" />
+          <EntitySet Name="ImagenesAnexos" EntityType="Self.ImagenesAnexos" />
+          <EntitySet Name="Medico" EntityType="Self.Medico" />
+          <EntitySet Name="Paciente" EntityType="Self.Paciente" />
+          <EntitySet Name="RecetaMedica" EntityType="Self.RecetaMedica" />
+          <EntitySet Name="Rol" EntityType="Self.Rol" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" />
+          <EntitySet Name="Cita" EntityType="Self.Cita" />
+          <AssociationSet Name="FK__AnexosCon__id_co__47DBAE45" Association="Self.FK__AnexosCon__id_co__47DBAE45">
+            <End Role="Consulta" EntitySet="Consulta" />
+            <End Role="AnexosConsulta" EntitySet="AnexosConsulta" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ImagenesA__id_an__4D94879B" Association="Self.FK__ImagenesA__id_an__4D94879B">
+            <End Role="AnexosConsulta" EntitySet="AnexosConsulta" />
+            <End Role="ImagenesAnexos" EntitySet="ImagenesAnexos" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RecetaMed__id_an__4AB81AF0" Association="Self.FK__RecetaMed__id_an__4AB81AF0">
+            <End Role="AnexosConsulta" EntitySet="AnexosConsulta" />
+            <End Role="RecetaMedica" EntitySet="RecetaMedica" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Consulta__id_med__44FF419A" Association="Self.FK__Consulta__id_med__44FF419A">
+            <End Role="Medico" EntitySet="Medico" />
+            <End Role="Consulta" EntitySet="Consulta" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Consulta__id_pac__440B1D61" Association="Self.FK__Consulta__id_pac__440B1D61">
+            <End Role="Paciente" EntitySet="Paciente" />
+            <End Role="Consulta" EntitySet="Consulta" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Cita__id_medico__403A8C7D" Association="Self.FK__Cita__id_medico__403A8C7D">
+            <End Role="Medico" EntitySet="Medico" />
+            <End Role="Cita" EntitySet="Cita" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Medico__id_usuar__3E52440B" Association="Self.FK__Medico__id_usuar__3E52440B">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Medico" EntitySet="Medico" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Cita__id_pacient__412EB0B6" Association="Self.FK__Cita__id_pacient__412EB0B6">
+            <End Role="Paciente" EntitySet="Paciente" />
+            <End Role="Cita" EntitySet="Cita" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Paciente__id_usu__3B75D760" Association="Self.FK__Paciente__id_usu__3B75D760">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Paciente" EntitySet="Paciente" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Usuario__rol__38996AB5" Association="Self.FK__Usuario__rol__38996AB5">
+            <End Role="Rol" EntitySet="Rol" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CentroMedicoModelStoreContainer" CdmEntityContainer="CentroMedicoEntities1">
+          <EntitySetMapping Name="AnexosConsulta">
+            <EntityTypeMapping TypeName="CentroMedicoModel.AnexosConsulta">
+              <MappingFragment StoreEntitySet="AnexosConsulta">
+                <ScalarProperty Name="id_anexo" ColumnName="id_anexo" />
+                <ScalarProperty Name="id_consulta" ColumnName="id_consulta" />
+                <ScalarProperty Name="observaciones" ColumnName="observaciones" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Consulta">
+            <EntityTypeMapping TypeName="CentroMedicoModel.Consulta">
+              <MappingFragment StoreEntitySet="Consulta">
+                <ScalarProperty Name="id_consulta" ColumnName="id_consulta" />
+                <ScalarProperty Name="id_paciente" ColumnName="id_paciente" />
+                <ScalarProperty Name="id_medico" ColumnName="id_medico" />
+                <ScalarProperty Name="hora_fin" ColumnName="hora_fin" />
+                <ScalarProperty Name="estado_cita" ColumnName="estado_cita" />
+                <ScalarProperty Name="fecha_proxima_cita" ColumnName="fecha_proxima_cita" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ImagenesAnexos">
+            <EntityTypeMapping TypeName="CentroMedicoModel.ImagenesAnexos">
+              <MappingFragment StoreEntitySet="ImagenesAnexos">
+                <ScalarProperty Name="id_imagen" ColumnName="id_imagen" />
+                <ScalarProperty Name="link_imagen" ColumnName="link_imagen" />
+                <ScalarProperty Name="id_anexo" ColumnName="id_anexo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Medico">
+            <EntityTypeMapping TypeName="CentroMedicoModel.Medico">
+              <MappingFragment StoreEntitySet="Medico">
+                <ScalarProperty Name="id_medico" ColumnName="id_medico" />
+                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
+                <ScalarProperty Name="colegiado" ColumnName="colegiado" />
+                <ScalarProperty Name="especialidad" ColumnName="especialidad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Paciente">
+            <EntityTypeMapping TypeName="CentroMedicoModel.Paciente">
+              <MappingFragment StoreEntitySet="Paciente">
+                <ScalarProperty Name="id_paciente" ColumnName="id_paciente" />
+                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
+                <ScalarProperty Name="cod_paciente" ColumnName="cod_paciente" />
+                <ScalarProperty Name="dpi_paciente" ColumnName="dpi_paciente" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RecetaMedica">
+            <EntityTypeMapping TypeName="CentroMedicoModel.RecetaMedica">
+              <MappingFragment StoreEntitySet="RecetaMedica">
+                <ScalarProperty Name="id_receta" ColumnName="id_receta" />
+                <ScalarProperty Name="nombre_medicamento" ColumnName="nombre_medicamento" />
+                <ScalarProperty Name="dosis_medicamento" ColumnName="dosis_medicamento" />
+                <ScalarProperty Name="instrucciones_medicamento" ColumnName="instrucciones_medicamento" />
+                <ScalarProperty Name="id_anexo" ColumnName="id_anexo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rol">
+            <EntityTypeMapping TypeName="CentroMedicoModel.Rol">
+              <MappingFragment StoreEntitySet="Rol">
+                <ScalarProperty Name="id_rol" ColumnName="id_rol" />
+                <ScalarProperty Name="nombre_rol" ColumnName="nombre_rol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuario">
+            <EntityTypeMapping TypeName="CentroMedicoModel.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
+                <ScalarProperty Name="rol" ColumnName="rol" />
+                <ScalarProperty Name="sexo" ColumnName="sexo" />
+                <ScalarProperty Name="fecha_nacimiento" ColumnName="fecha_nacimiento" />
+                <ScalarProperty Name="primer_nombre" ColumnName="primer_nombre" />
+                <ScalarProperty Name="segundo_nombre" ColumnName="segundo_nombre" />
+                <ScalarProperty Name="primer_apellido" ColumnName="primer_apellido" />
+                <ScalarProperty Name="segundo_apellido" ColumnName="segundo_apellido" />
+                <ScalarProperty Name="nombre_usuario" ColumnName="nombre_usuario" />
+                <ScalarProperty Name="pass_usuario" ColumnName="pass_usuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cita">
+            <EntityTypeMapping TypeName="CentroMedicoModel.Cita">
+              <MappingFragment StoreEntitySet="Cita">
+                <ScalarProperty Name="id_cita" ColumnName="id_cita" />
+                <ScalarProperty Name="id_medico" ColumnName="id_medico" />
+                <ScalarProperty Name="id_paciente" ColumnName="id_paciente" />
+                <ScalarProperty Name="fecha_cita" ColumnName="fecha_cita" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

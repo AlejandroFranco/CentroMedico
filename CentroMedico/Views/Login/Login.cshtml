@@ -1,0 +1,85 @@
+﻿
+
+@{
+    Layout = null;
+
+}
+
+@model  CentroMedico.Models.Usuario
+
+<!Doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Pablo Franco">
+    <link href="~/Content/EstiloLogin.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@1,700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="contenedor">
+            <div class="fila">
+                <div class="col-lg-0"></div>
+            </div>
+
+            <!--En esta fila va centrado mi login-->
+            <div class="fila">
+                <div class="col-lg-12">
+                    <div class="tarjetaLogin">
+                        <form>
+                            <!--Registro-->
+                            <div class="fila">
+                                <div class="col-lg-12">
+                                    <p style="font-size: 25pt;"> Login</p>
+                                </div>
+                            </div>
+
+                            <!--Correo electronico-->
+                            <div class="fila">
+                                <div class="col-lg-6">
+                                    @Html.LabelFor(model => model.nombre_usuario, htmlAttributes: new { @class = "control-label col-md-2" })
+                                </div>
+                                <div class="col-lg-6">
+                                    @Html.EditorFor(model => model.nombre_usuario, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.nombre_usuario, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <!--Contraseña-->
+
+                            <div class="fila">
+                                <div class="col-lg-6">
+                                    @Html.LabelFor(model => model.pass_usuario, htmlAttributes: new { @class = "control-label col-md-2" })
+                                </div>
+                                <div class="col-lg-6">
+                                    @Html.EditorFor(model => model.pass_usuario, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.pass_usuario, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <!--Iniciar Sesión-->
+
+                            <div class="fila">
+                                <div class="col-lg-6">
+                                    @Html.ActionLink("Registrarse", "Registro", "registro")
+                                </div>
+                                <div class="col-lg-6">
+                                    <button type="submit" value="Login">Ingresar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="fila">
+                <div class="col-lg-0"></div>
+            </div>
+        </div>
+    }
+</body>
+</html>
