@@ -8,17 +8,95 @@
 @model CentroMedico.Models.Usuario
 
 
+<div class="fila"></div>
+
+
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     <div class="fila">
-        @Html.LabelFor(model => model.primer_nombre)
-   
-        @Html.EditorFor(model => model.primer_nombre)
-        @Html.ValidationMessageFor(model => model.primer_nombre)
-    </div>
-    }
+        <div class="col-lg-4">
+          
 
-    <div>
+        </div>
+
+
+        <div class="col-lg-4" id="formulario-usuario">
+            <div class="fila">
+                <div class="col-lg-12">
+                    <h1>Editar mi usuario</h1>
+                </div>
+            </div>
+            <div class="fila">
+                <div class="col-lg-6">
+                    @Html.LabelFor(model => model.primer_nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+                </div>
+                <div class="col-lg-6">
+                    @Html.EditorFor(model => model.primer_nombre, new { htmlAttributes = new { @class = "form-control" } })
+
+                    @Html.ValidationMessageFor(model => model.primer_nombre)
+                </div>
+            </div>
+
+            <div class="fila">
+                <div class="col-lg-6">
+                    @Html.LabelFor(model => model.segundo_nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+                </div>
+                <div class="col-lg-6">
+
+                    @Html.EditorFor(model => model.segundo_nombre, new { htmlAttributes = new { @class = "form-control" } })
+  
+                    @Html.ValidationMessageFor(model => model.segundo_nombre)
+                </div>
+
+
+
+            </div>
+
+            <div class="fila">
+                <div class="col-lg-6">
+                    @Html.LabelFor(model => model.primer_apellido, htmlAttributes: new { @class = "control-label col-md-2" })
+                </div>
+                <div class="col-lg-6">
+                    @Html.EditorFor(model => model.primer_apellido, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.primer_apellido)
+                </div>
+
+            </div>
+
+            <div class="fila">
+                <div class="col-lg-6">
+                    @Html.LabelFor(model => model.segundo_apellido, htmlAttributes: new { @class = "control-label col-md-2" })
+                </div>
+                <div class="col-lg-6">
+                    @Html.EditorFor(model => model.segundo_apellido, new { htmlAttributes = new { @class = "form-control" } })
+
+                    @Html.ValidationMessageFor(model => model.segundo_apellido)
+                </div>
+            </div>
+
+
+            <div class="fila">
+                <div class="col-lg-6"></div>
+                <div class="col-lg-6"> <input type="submit" value="Guardar cambios" class="btn" /></div>
+               
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+
+
+    </div>
+}
+
+<div class="fila">
+    <div class="col-lg-4"></div>
+    <div class="col-lg-4"></div>
+    <div class="col-lg-4">
         @Html.ActionLink("Regresar", "Perfil")
     </div>
+
+
+</div>
