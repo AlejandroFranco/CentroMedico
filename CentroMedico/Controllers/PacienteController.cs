@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -23,10 +24,28 @@ namespace CentroMedico.Controllers
             return View(perfil);
         }
 
+        // GET: 
         public ActionResult Editar(int? id)
         {
-     
-            return View();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Usuario usuario = db.Usuario.Find(id);
+            if (usuario == null)
+            {
+                return HttpNotFound();
+            }
+            return View(usuario);
+        }
+   
+        public ActionResult Salir()
+        {
+            Session.Remove("rol");
+            Session.Remove("usuario");
+            Session.Remove("id_usuario");
+            return Redirect("Login");
+
         }
 
     }

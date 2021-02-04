@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewBag.Title = "Editar";
+    Layout = "~/Views/Paciente/_Layout_.cshtml";
+}
+
+
+@model CentroMedico.Models.Usuario
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="fila">
+        @Html.LabelFor(model => model.primer_nombre)
+   
+        @Html.EditorFor(model => model.primer_nombre)
+        @Html.ValidationMessageFor(model => model.primer_nombre)
+    </div>
+    }
+
+    <div>
+        @Html.ActionLink("Regresar", "Perfil")
+    </div>

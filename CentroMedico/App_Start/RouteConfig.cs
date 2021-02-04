@@ -14,6 +14,12 @@ namespace CentroMedico
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "Default",
+                url: "",
+                defaults: new { controller = "Login", action = "Login", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "Login",
                 url: "Login",
                 defaults: new { controller = "Login", action = "Login", id = UrlParameter.Optional }
@@ -31,9 +37,22 @@ namespace CentroMedico
             );
             routes.MapRoute(
                 name: "Perfil Paciente",
-                url: "Home/Usuario/Pefil",
+                url: "Home/Usuario/Perfil",
                 defaults: new { controller = "Paciente", action = "Perfil", id = UrlParameter.Optional }
-);
+            );
+
+            routes.MapRoute(
+                name: "Salir",
+                url: "Salir",
+                defaults: new { controller = "Paciente", action = "Salir", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "Editar Paciente",
+                url: "Home/Usuario/Perfil/{action}/{id}",
+                defaults: new { controller = "Paciente", action = "Editar", id = UrlParameter.Optional }
+            );
+
         }
     }
 }

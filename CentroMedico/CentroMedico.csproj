@@ -237,6 +237,7 @@
     <Content Include="Views\Citas\Index.cshtml" />
     <Content Include="Views\Paciente\Perfil.cshtml" />
     <Content Include="Views\Paciente\_Layout_.cshtml" />
+    <Content Include="Views\Paciente\Editar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
