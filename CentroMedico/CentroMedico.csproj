@@ -129,8 +129,10 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AdministradorController.cs" />
+    <Compile Include="Controllers\CitasController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MedicoController.cs" />
+    <Compile Include="Controllers\PacienteController.cs" />
     <Compile Include="Controllers\RegistroController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -182,17 +184,20 @@
   <ItemGroup>
     <Content Include="Content\EstiloLogin.css" />
     <Content Include="Content\EstiloRegistro.css" />
+    <Content Include="Content\Paciente.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
     <EntityDeploy Include="Models\CentroMedico.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>CentroMedico.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <Content Include="Imagenes\facebook.png" />
+    <Content Include="Imagenes\google.png" />
+    <Content Include="Imagenes\outlook.png" />
+    <Content Include="Imagenes\sifco-logo.jpg" />
     <Content Include="Models\CentroMedico.edmx.diagram">
       <DependentUpon>CentroMedico.edmx</DependentUpon>
     </Content>
-    <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Models\CentroMedico.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>CentroMedico.edmx</DependentUpon>
@@ -203,15 +208,6 @@
       <DependentUpon>CentroMedico.edmx</DependentUpon>
       <LastGenOutput>CentroMedico.cs</LastGenOutput>
     </Content>
-    <Content Include="Scripts\jquery-3.4.1.js" />
-    <Content Include="Scripts\jquery-3.4.1.min.js" />
-    <Content Include="Scripts\jquery-3.4.1.slim.js" />
-    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -223,9 +219,9 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Views\Registro\Registro.cshtml" />
+    <Content Include="Views\Paciente\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -234,8 +230,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
-    <Content Include="Scripts\jquery-3.4.1.min.map" />
+    <Content Include="Views\Citas\Create.cshtml" />
+    <Content Include="Views\Citas\Delete.cshtml" />
+    <Content Include="Views\Citas\Details.cshtml" />
+    <Content Include="Views\Citas\Edit.cshtml" />
+    <Content Include="Views\Citas\Index.cshtml" />
+    <Content Include="Views\Paciente\Perfil.cshtml" />
+    <Content Include="Views\Paciente\_Layout_.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

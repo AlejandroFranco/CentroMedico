@@ -24,6 +24,16 @@ namespace CentroMedico
                 url: "Registro",
                 defaults: new { controller = "Registro", action = "Registro", id = UrlParameter.Optional }
             );
+            routes.MapRoute(
+                name: "Paciente",
+                url: "Home/Usuario",
+                defaults: new { controller = "Paciente", action = "Index", id = UrlParameter.Optional }
+            );
+            routes.MapRoute(
+                name: "Perfil Paciente",
+                url: "Home/Usuario/Pefil",
+                defaults: new { controller = "Paciente", action = "Perfil", id = UrlParameter.Optional }
+);
         }
     }
 }
